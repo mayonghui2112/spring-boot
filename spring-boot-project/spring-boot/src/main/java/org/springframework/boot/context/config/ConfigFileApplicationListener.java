@@ -174,6 +174,11 @@ public class ConfigFileApplicationListener
 	private void onApplicationEnvironmentPreparedEvent(
 			ApplicationEnvironmentPreparedEvent event) {
 		//加载所有的EnvironmentPostProcessor后置处理器
+		//默认有四个
+		//SystemEnvironmentPropertySourceEnvironmentPostProcessor
+		//SpringApplicationJsonEnvironmentPostProcessor
+		//CloudFoundryVcapEnvironmentPostProcessor
+		//this--ConfigFileApplicationListener
 		List<EnvironmentPostProcessor> postProcessors = loadPostProcessors();
 		//本类也作为后置处理器添加进去
 		postProcessors.add(this);
