@@ -366,7 +366,7 @@ public class SpringApplication {
 		// Create and configure the environment
 		ConfigurableEnvironment environment = getOrCreateEnvironment();
 		configureEnvironment(environment, applicationArguments.getSourceArgs());
-		//将环境添加到监听器
+		//想所有监听器发布环境准备完成时间，触发对应的动作，其中EventPublishingRunListener
 		listeners.environmentPrepared(environment);
 		bindToSpringApplication(environment);
 		if (!this.isCustomEnvironment) {

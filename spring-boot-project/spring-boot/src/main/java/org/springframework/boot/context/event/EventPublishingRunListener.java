@@ -72,6 +72,9 @@ public class EventPublishingRunListener implements SpringApplicationRunListener,
 
 	@Override
 	public void environmentPrepared(ConfigurableEnvironment environment) {
+		//建立一个ApplicationEnvironmentPreparedEvent时间，发布该事件
+		//EventPublishingRunListener初始化的时候
+		// 会初始化一个initialMulticaster，然后从spring application中取出所有的监听器，放入initialMulticaster
 		this.initialMulticaster.multicastEvent(new ApplicationEnvironmentPreparedEvent(
 				this.application, this.args, environment));
 	}

@@ -159,10 +159,13 @@ public class ConfigFileApplicationListener
 
 	@Override
 	public void onApplicationEvent(ApplicationEvent event) {
+		//响应两个事件，
+		// 一个是ApplicationEnvironmentPreparedEvent
 		if (event instanceof ApplicationEnvironmentPreparedEvent) {
 			onApplicationEnvironmentPreparedEvent(
 					(ApplicationEnvironmentPreparedEvent) event);
 		}
+		// ApplicationPreparedEvent
 		if (event instanceof ApplicationPreparedEvent) {
 			onApplicationPreparedEvent(event);
 		}
@@ -170,8 +173,11 @@ public class ConfigFileApplicationListener
 
 	private void onApplicationEnvironmentPreparedEvent(
 			ApplicationEnvironmentPreparedEvent event) {
+		//加载所有的EnvironmentPostProcessor后置处理器
 		List<EnvironmentPostProcessor> postProcessors = loadPostProcessors();
+		//本类也作为后置处理器添加进去
 		postProcessors.add(this);
+		//排序，遍历调用
 		AnnotationAwareOrderComparator.sort(postProcessors);
 		for (EnvironmentPostProcessor postProcessor : postProcessors) {
 			postProcessor.postProcessEnvironment(event.getEnvironment(),
@@ -180,6 +186,7 @@ public class ConfigFileApplicationListener
 	}
 
 	List<EnvironmentPostProcessor> loadPostProcessors() {
+		//从META-INF/spring.factories加载列举的所有的EnvironmentPostProcessor的实现类，并实例化
 		return SpringFactoriesLoader.loadFactories(EnvironmentPostProcessor.class,
 				getClass().getClassLoader());
 	}
